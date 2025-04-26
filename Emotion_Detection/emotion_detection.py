@@ -24,10 +24,18 @@ def emotion_detector(text_to_analyze):
 
     emotions = response_format["emotionPredictions"][0]["emotion"]
 
+    domination_emotion, domination_score = "", 0.0
+
+    for emotion, score in emotions.items():
+        if score > domination_score:
+            domination_score = score
+            domination_emotion = emotion
+
     return {
         "anger": emotions["anger"],
         "disgust": emotions["disgust"],
         "fear": emotions["fear"],
         "joy": emotions["joy"],
-        "sadness": emotions["sadness"]
+        "sadness": emotions["sadness"],
+        "domination_emotion": domination_emotion
     }
