@@ -31,11 +31,13 @@ def emotion_detector(text_to_analyze):
             domination_score = score
             domination_emotion = emotion
 
-    return {
-        "anger": emotions["anger"],
-        "disgust": emotions["disgust"],
-        "fear": emotions["fear"],
-        "joy": emotions["joy"],
-        "sadness": emotions["sadness"],
-        "domination_emotion": domination_emotion
-    }
+    anger = emotions["anger"]
+    disgust = emotions["disgust"]
+    fear = emotions["fear"]
+    joy = emotions["joy"]
+    sadness = emotions["sadness"]
+
+    return (
+        f"For the given statement, the system response is Anger: {anger}, Disgust: {disgust}, Fear:"
+        f" {fear}, Joy: {joy} and Sadness: {sadness}. The dominant emotion is {domination_emotion}"
+    )
