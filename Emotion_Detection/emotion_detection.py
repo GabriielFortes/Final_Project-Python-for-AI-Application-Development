@@ -20,22 +20,33 @@ def emotion_detector(text_to_analyze):
     dict_emotion = { "raw_document": { "text": text_to_analyze } }
 
     response = requests.post(url, json=dict_emotion, headers=header, timeout=10)
-    response_format = json.loads(response.text)
 
-    emotions = response_format["emotionPredictions"][0]["emotion"]
+    if response.status_code == 400 or response.status_code != 200:
+        return {
+            "anger": None,
+            "disgust": None,
+            "fear": None,
+            "joy": None,
+            "sadness": None,
+            "domination_emotion": None
+        }
+
+    response_format = json.loads(response.text)
 
     domination_emotion, domination_score = "", 0.0
 
-    for emotion, score in emotions.items():
-        if score > domination_score:
-            domination_score = score
-            domination_emotion = emotion
+    emotions = response_format["emotionPredictions"][0]["emotion"]
 
     anger = emotions["anger"]
     disgust = emotions["disgust"]
     fear = emotions["fear"]
     joy = emotions["joy"]
     sadness = emotions["sadness"]
+
+    for emotion, score in emotions.items():
+        if score > domination_score:
+            domination_score = score
+            domination_emotion = emotion
 
     return (
         f"For the given statement, the system response is Anger: {anger}, Disgust: {disgust}, Fear:"
